@@ -35,7 +35,7 @@ const benefits = [
   },
   {
     icon: Users,
-    title: 'Inglês do dia a dia',
+    title: 'Espanhol do dia a dia',
     description: 'Você aprende com músicas, filmes e conversas reais — nada de decoreba cansativa.',
     color: 'orange'
   }
