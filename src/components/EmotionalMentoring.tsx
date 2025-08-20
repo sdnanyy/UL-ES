@@ -90,7 +90,7 @@ export default function EmotionalMentoring() {
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="h-5 w-5 text-brand-teal flex-shrink-0 mt-1" />
                   <p className="text-gray-700">
-                    <strong>Redução de 80%</strong> na ansiedade ao falar inglês em situações reais
+                    <strong>Redução de 80%</strong> na ansiedade ao falar espanhol em situações reais
                   </p>
                 </div>
                 <div className="flex items-start space-x-3">
