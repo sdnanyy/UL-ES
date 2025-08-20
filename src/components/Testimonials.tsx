@@ -75,7 +75,7 @@ export default function Testimonials() {
                       )}
                       {index === 1 && (
                         <img 
-                          src="/retrato-de-mulher-senior-em-blazer-profissional-ao-ar-livre.jpg" 
+                          src="/retrato-de-mulher-senior-em-blazer-profissional-ao-ar-livre copy.jpg" 
                           alt="Adriana V."
                           className="w-full h-full object-cover object-top"
                         />
