@@ -9,6 +9,7 @@ interface LazyImageProps {
   width?: number;
   height?: number;
   quality?: number;
+  priority?: boolean;
 }
 
 export default function LazyImage({ 
@@ -18,18 +19,31 @@ export default function LazyImage({
   placeholder,
   width,
   height,
-  quality = 80
+  quality = 80,
+  priority = false
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
   
-  const optimizedSrc = getOptimizedImageUrl(src, width, height, quality);
+  // Para mobile, usar qualidade menor e tamanhos otimizados
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const mobileQuality = isMobile ? Math.max(60, quality - 20) : quality;
+  const mobileWidth = isMobile && width ? Math.min(width, 400) : width;
+  const mobileHeight = isMobile && height ? Math.min(height, 300) : height;
+  
+  const optimizedSrc = getOptimizedImageUrl(src, mobileWidth, mobileHeight, mobileQuality);
   const defaultPlaceholder = width && height 
     ? generatePlaceholder(width, height)
     : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB2aWV3Qm94PSIwIDAgMSAxIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNmM2Y0ZjYiLz48L3N2Zz4=';
 
   useEffect(() => {
+    // Para imagens prioritárias, carregar imediatamente
+    if (priority) {
+      setIsInView(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -37,7 +51,10 @@ export default function LazyImage({
           observer.disconnect();
         }
       },
-      { threshold: 0.1 }
+      { 
+        threshold: 0.1,
+        rootMargin: '50px' // Carregar imagens 50px antes de aparecerem
+      }
     );
 
     if (imgRef.current) {
@@ -45,7 +62,7 @@ export default function LazyImage({
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [priority]);
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
@@ -65,10 +82,10 @@ export default function LazyImage({
           isLoaded ? 'opacity-100' : 'opacity-0'
         }`}
         onLoad={() => setIsLoaded(true)}
-        loading="lazy"
+        loading={priority ? "eager" : "lazy"}
         decoding="async"
-        width={width}
-        height={height}
+        width={mobileWidth || width}
+        height={mobileHeight || height}
       />
     </div>
   );

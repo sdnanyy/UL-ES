@@ -5,17 +5,28 @@ interface AnimatedSectionProps {
   children: ReactNode;
   className?: string;
   animation?: 'fadeIn' | 'slideUp' | 'slideLeft' | 'slideRight';
+  disabled?: boolean;
 }
 
 export default function AnimatedSection({ 
   children, 
   className = '', 
-  animation = 'fadeIn' 
+  animation = 'fadeIn',
+  disabled = false
 }: AnimatedSectionProps) {
   const { targetRef, isIntersecting } = useIntersectionObserver({
     threshold: 0.1,
-    triggerOnce: true
+    triggerOnce: true,
+    disabled
   });
+
+  // Desabilitar animações em dispositivos com preferência por movimento reduzido
+  const prefersReducedMotion = typeof window !== 'undefined' && 
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (disabled || prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
 
   const animationClasses = {
     fadeIn: isIntersecting 
@@ -35,7 +46,7 @@ export default function AnimatedSection({
   return (
     <div
       ref={targetRef}
-      className={`transition-all duration-700 ease-out ${animationClasses[animation]} ${className}`}
+      className={`transition-all duration-500 ease-out ${animationClasses[animation]} ${className}`}
     >
       {children}
     </div>

@@ -64,7 +64,8 @@ export default function Hero() {
                   className="w-full h-40 sm:h-48 object-cover rounded-xl"
                   width={400}
                   height={300}
-                  quality={85}
+                  quality={75}
+                  priority={true}
                 />
                 <div className="text-center mt-3">
                   <p className="text-sm font-semibold text-gray-800">Reuniões</p>
@@ -80,7 +81,8 @@ export default function Hero() {
                   className="w-full h-40 sm:h-48 object-cover rounded-xl"
                   width={400}
                   height={300}
-                  quality={85}
+                  quality={75}
+                  priority={true}
                 />
                 <div className="text-center mt-3">
                   <p className="text-sm font-semibold text-gray-800">Viagens</p>
@@ -97,7 +99,8 @@ export default function Hero() {
                 className="w-full h-48 sm:h-56 object-cover rounded-xl"
                 width={600}
                 height={400}
-                quality={90}
+                quality={80}
+                priority={true}
               />
               <div className="text-center mt-3">
                 <p className="text-sm font-semibold text-gray-800">Apresentações</p>
@@ -121,7 +124,7 @@ export default function Hero() {
                   className="w-full h-32 object-cover rounded-lg"
                   width={300}
                   height={200}
-                  quality={80}
+                  quality={70}
                 />
                 <div className="text-center mt-2">
                   <p className="text-xs font-semibold text-gray-800">Carreira</p>
@@ -136,7 +139,7 @@ export default function Hero() {
                   className="w-full h-32 object-cover rounded-lg"
                   width={300}
                   height={200}
-                  quality={80}
+                  quality={70}
                 />
                 <div className="text-center mt-2">
                   <p className="text-xs font-semibold text-gray-800">Aprendizado</p>

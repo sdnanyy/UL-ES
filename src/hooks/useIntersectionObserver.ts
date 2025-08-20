@@ -4,16 +4,22 @@ interface UseIntersectionObserverOptions {
   threshold?: number;
   rootMargin?: string;
   triggerOnce?: boolean;
+  disabled?: boolean;
 }
 
 export function useIntersectionObserver(
   options: UseIntersectionObserverOptions = {}
 ) {
-  const { threshold = 0.1, rootMargin = '0px', triggerOnce = true } = options;
-  const [isIntersecting, setIsIntersecting] = useState(false);
+  const { threshold = 0.1, rootMargin = '0px', triggerOnce = true, disabled = false } = options;
+  const [isIntersecting, setIsIntersecting] = useState(disabled);
   const targetRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    if (disabled) {
+      setIsIntersecting(true);
+      return;
+    }
+
     const target = targetRef.current;
     if (!target) return;
 
@@ -32,7 +38,7 @@ export function useIntersectionObserver(
     return () => {
       observer.unobserve(target);
     };
-  }, [threshold, rootMargin, triggerOnce]);
+  }, [threshold, rootMargin, triggerOnce, disabled]);
 
   return { targetRef, isIntersecting };
 }
